@@ -1,4 +1,4 @@
-import HomeComponent from "../../components/Loginpage/HomeComponent"
+import HomeComponent from "../../../components/authenticatin/home/HomeComponent"
 
 
 function HomePage() {

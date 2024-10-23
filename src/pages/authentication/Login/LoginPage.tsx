@@ -1,4 +1,4 @@
-import LoginComponent from "../../components/Loginpage/LoginComponent"
+import LoginComponent from "../../../components/authenticatin/Loginpage/LoginComponent"
 
 
 function LoginPage({setIsAuthenticated}) {
