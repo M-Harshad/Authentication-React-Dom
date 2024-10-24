@@ -1,4 +1,4 @@
-import FormBuilder from "../../../components/Dynamic-Form-Builder/FormBuilder/FormBuilder"
+import FormBuilder from "../../components/Dynamic-Form-Builder/FormBuilder"
 
 function DynamicFormPage() {
   return (

@@ -1,4 +1,4 @@
-import NavigationComponent from "../../../components/navigation/navigation/NavigationComponent"
+import NavigationComponent from "../../components/navigation/NavigationComponent"
 
 function NavigationPage() {
   return (

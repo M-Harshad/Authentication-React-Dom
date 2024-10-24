@@ -10,7 +10,7 @@ interface Field {
   name: string;
 }
 
-const FomrBuilder: React.FC = () => {
+const FormBuilder: React.FC = () => {
   const [fields, setFields] = useState<Field[]>([]);
   const [fieldType, setFieldType] = useState<FieldType | ''>('');
   const [placeholder, setPlaceholder] = useState('');
@@ -155,5 +155,5 @@ const FomrBuilder: React.FC = () => {
   );
 };
 
-export default FomrBuilder;
+export default FormBuilder;
 

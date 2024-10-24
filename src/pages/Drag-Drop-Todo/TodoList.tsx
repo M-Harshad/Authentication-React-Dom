@@ -1,7 +1,7 @@
 // src/App.tsx
 import { useState } from 'react';
 import React from 'react';
-import DragDrop from '../../../components/Drag-Drop-Todo/dragdrop/DragDrop';
+import DragDrop from '../../components/Drag-Drop-Todo/DragDrop';
 
 function DragDropTodo() {
   const [inputValue, setInputValue] = useState<string>('');
