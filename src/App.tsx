@@ -6,6 +6,7 @@ import Dashboard from "./pages/authentication/Dashboard";
 import ProtectedRoute from "./Routes/ProtectedRoute";
 import DragDropTodo from "./pages/Drag-Drop-Todo/todo/TodoList";
 import DynamicFormPage from "./pages/Dynamic_form_builder/DynamicFormPage/DynamicFormPage";
+import NavigationPage from "./pages/navigator/navigator/NavigationPage";
 
 
 function App() {
@@ -14,6 +15,10 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
+      element: <NavigationPage/>,
+    },
+    {
+      path: "/login",
       element: <LoginPage setIsAuthenticated={setIsAuthenticated} />,
     },
     {
