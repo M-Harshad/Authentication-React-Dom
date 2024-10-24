@@ -4,7 +4,8 @@ import LoginPage from "./pages/authentication/Login/LoginPage";
 import HomePage from "./pages/authentication/home/HomePage";
 import Dashboard from "./pages/authentication/Dashboard";
 import ProtectedRoute from "./Routes/ProtectedRoute";
-import DragDropTodo from "./pages/Drag-Drop-Todo/TodoList";
+import DragDropTodo from "./pages/Drag-Drop-Todo/todo/TodoList";
+import DynamicFormPage from "./pages/Dynamic_form_builder/DynamicFormPage/DynamicFormPage";
 
 
 function App() {
@@ -29,6 +30,10 @@ function App() {
     {
       path: "/todolist",
       element: <DragDropTodo />,
+    },
+    {
+      path: "/dynamicform",
+      element: <DynamicFormPage />,
     },
 
   ]);
