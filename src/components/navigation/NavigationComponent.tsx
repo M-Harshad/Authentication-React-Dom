@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const NavigationComponent: React.FC = () => {
-  // Sample project data
   const projects = [
     { id: 1, title: "Todo List", description: "A simple and intuitive Todo List application to manage tasks efficiently.", link: "/todolist" },
     { id: 2, title: "Dynamic Form Builder", description: "Create dynamic forms easily with this builder, supporting various input types.", link: "/dynamicform" },
     { id: 3, title: "Authentication Required", description: "You need to be logged in to view the projects. Please log in.", link: "/login" },
-    // Add more projects here
   ];
 
-  const itemsPerPage = 6; // Number of projects per page
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   // Calculate total pages
@@ -30,7 +28,7 @@ const NavigationComponent: React.FC = () => {
     <div className="bg-gray-100 min-h-screen">
       <header className="bg-blue-600 p-6 shadow-md">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 className="text-white text-3xl font-bold">My Projects</h1>
+          <h1 className="text-white text-3xl font-bold">HR IdeaIncubator</h1>
         </div>
       </header>
 
@@ -79,7 +77,7 @@ const NavigationComponent: React.FC = () => {
       </main>
 
       <footer className="bg-blue-600 p-4 mt-6 text-center">
-        <p className="text-white">© {new Date().getFullYear()} My Projects</p>
+        <p className="text-white">© {new Date().getFullYear()} HR IdeaIncubator</p>
       </footer>
     </div>
   );
