@@ -7,6 +7,7 @@ import ProtectedRoute from "./Routes/ProtectedRoute";
 import DragDropTodo from "./pages/Drag-Drop-Todo/TodoList";
 import DynamicFormPage from "./pages/Dynamic_form_builder/DynamicFormPage";
 import NavigationPage from "./pages/navigator/NavigationPage";
+import FileuploadPage from "./pages/FileUpload/FileuploadPage";
 
 
 function App() {
@@ -25,20 +26,29 @@ function App() {
       path: "/home",
       element: <HomePage />,
     },
-    {
-      path: "/dashboard",
-      element: (<ProtectedRoute isAuthenticated={isAuthenticated}>
-                  <Dashboard/>
-                </ProtectedRoute>
-      ),
-    },
+    // {
+    //   path: "/dashboard",
+    //   element: (<ProtectedRoute isAuthenticated={isAuthenticated}>
+    //               <Dashboard/>
+    //             </ProtectedRoute>
+    //   ),
+    // },
+
     {
       path: "/todolist",
       element: <DragDropTodo />,
     },
     {
+      path: "/dashboard",
+      element: <Dashboard/>
+    },
+    {
       path: "/dynamicform",
       element: <DynamicFormPage />,
+    },
+    {
+      path: "/fileupload",
+      element: <FileuploadPage />,
     },
 
 

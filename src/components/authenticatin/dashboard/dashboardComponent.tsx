@@ -1,75 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState, } from 'react';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, registerables } from 'chart.js';
+
+ChartJS.register(...registerables);
+
+interface SalesData {
+  date: string;
+  sales: number;
+}
 
 const DashboardComponent: React.FC = () => {
+  const [salesData, setSalesData] = useState<SalesData[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/sales');
+        const data = await response.json();
+        console.log('Fetched Data:', data);
+        setSalesData(data);
+        console.log(salesData)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const data = {
+    labels: salesData.map(item => item.date), // Corrected
+    datasets: [
+      {
+        label: 'Sales',
+        data: salesData.map(item => item.sales),
+        fill: false,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        tension: 0.1,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Date',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Sales',
+        },
+        beginAtZero: true,
+      },
+    },
+  };
+
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md">
-        <div className="p-6">
-          <h2 className="text-2xl font-bold text-center">Dashboard</h2>
-          <nav className="mt-8">
-            <ul>
-              <li className="mb-2">
-                <a href="#" className="block p-2 text-gray-700 hover:bg-blue-500 hover:text-white rounded">
-                  Home
-                </a>
-              </li>
-              <li className="mb-2">
-                <a href="#" className="block p-2 text-gray-700 hover:bg-blue-500 hover:text-white rounded">
-                  Profile
-                </a>
-              </li>
-              <li className="mb-2">
-                <a href="#" className="block p-2 text-gray-700 hover:bg-blue-500 hover:text-white rounded">
-                  Settings
-                </a>
-              </li>
-              <li className="mb-2">
-                <a href="#" className="block p-2 text-gray-700 hover:bg-blue-500 hover:text-white rounded">
-                  Logout
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <div className="flex-1 p-6">
-        {/* Header */}
-        <header className="bg-white shadow-md mb-6 p-4 rounded">
-          <h1 className="text-3xl font-bold">Welcome to the Dashboard</h1>
-        </header>
-
-        {/* Dashboard Widgets */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Widget 1 */}
-          <div className="bg-white shadow-md rounded-lg p-4">
-            <h2 className="text-xl font-semibold">Total Users</h2>
-            <p className="text-3xl font-bold text-blue-600">1,234</p>
-          </div>
-
-          {/* Widget 2 */}
-          <div className="bg-white shadow-md rounded-lg p-4">
-            <h2 className="text-xl font-semibold">Total Sales</h2>
-            <p className="text-3xl font-bold text-green-600">$12,345</p>
-          </div>
-
-          {/* Widget 3 */}
-          <div className="bg-white shadow-md rounded-lg p-4">
-            <h2 className="text-xl font-semibold">New Signups</h2>
-            <p className="text-3xl font-bold text-yellow-600">56</p>
-          </div>
-
-          {/* Widget 4 */}
-          <div className="bg-white shadow-md rounded-lg p-4">
-            <h2 className="text-xl font-semibold">Pending Tasks</h2>
-            <p className="text-3xl font-bold text-red-600">8</p>
-          </div>
-        </div>
-      </div>
+    <div className="w-[1000px] mx-auto p-4 bg-white shadow-md rounded-lg">
+      <h2 className="text-xl font-semibold mb-4">Sales Data</h2>
+      {salesData.length === 0 ? (
+        <p>No sales data available.</p>
+      ) : (
+        <Line data={data} options={options} />
+      )}
+    {console.log(salesData.length)}
     </div>
+
   );
+  
 };
 
 export default DashboardComponent;

@@ -45,7 +45,7 @@ const NavigationComponent: React.FC = () => {
           <h1 className="text-3xl font-bold">HR IdeaIncubator</h1>
           <button
             onClick={toggleDarkMode}
-            className={`px-4 py-2 rounded transition ${isDarkMode ? 'bg-gray-600' : 'bg-gray-300'}`}
+            className={`px-4 py-2 rounded-xl transition ${isDarkMode ? 'bg-gray-600' : 'bg-gray-300'}`}
           >
             {isDarkMode ? 'Light Mode' : 'Dark Mode'}
           </button>
