@@ -1,39 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'  
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { removeStoredContent, removeCompleted, removeInProgress, removeTodo, setTodo, setInProgress, setCompleted } from '../../redux/slice/slice';
-
 
 interface DragDropProps {
     input: string[]; // Array of strings
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // Function to handle input change
     handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void; // Function to handle form submission
     value: string; // Current input value
-
 }
 
-const DragDrop = ({ input, handleInputChange, handleClick, value, }: DragDropProps) => {
+const DragDrop = ({ input, handleInputChange, handleClick, value }: DragDropProps) => {
     const dispatch = useDispatch();
     const todo = useSelector((state: RootState) => state.input.todo);
     const inProgress = useSelector((state: RootState) => state.input.inProgress);
     const completed = useSelector((state: RootState) => state.input.completed);
 
     useEffect(() => {
-        setTodo(input);
-    }, [input]);
+        dispatch(setTodo(input)); // Use dispatch to update the todo list
+    }, [input, dispatch]);
 
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>, item: string) => {
         e.dataTransfer.setData('text/plain', item);
     };
 
-    const handleDrop = (e: React.DragEvent<HTMLDivElement>, targetList: React.Dispatch<React.SetStateAction<string[]>>, currentList: string[]) => {
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>, targetList: string) => {
         const item = e.dataTransfer.getData('text/plain');
-        if (item && !currentList.includes(item)) {
-            if (todo.includes(item) || inProgress.includes(item) || completed.includes(item)) {
-               dispatch(removeTodo(item))
-                dispatch(removeInProgress(item))
-                dispatch(removeCompleted(item))
-                targetList((prev) => [...prev, item]);
+        if (item) {
+            if (todo.includes(item)) {
+                dispatch(removeTodo(item));
+            } else if (inProgress.includes(item)) {
+                dispatch(removeInProgress(item));
+            } else if (completed.includes(item)) {
+                dispatch(removeCompleted(item));
+            }
+
+            switch (targetList) {
+                case 'todo':
+                    dispatch(setTodo([...todo, item]));
+                    break;
+                case 'inProgress':
+                    dispatch(setInProgress([...inProgress, item]));
+                    break;
+                case 'completed':
+                    dispatch(setCompleted([...completed, item]));
+                    break;
+                default:
+                    break;
             }
         }
     };
@@ -41,9 +54,9 @@ const DragDrop = ({ input, handleInputChange, handleClick, value, }: DragDropPro
     const handleDeleteDrop = (e: React.DragEvent<HTMLDivElement>) => {
         const item = e.dataTransfer.getData('text/plain');
         if (item) {
-           dispatch(removeTodo(item))
-            dispatch(removeInProgress(item))
-            dispatch(removeCompleted(item))
+            dispatch(removeTodo(item));
+            dispatch(removeInProgress(item));
+            dispatch(removeCompleted(item));
             dispatch(removeStoredContent(item));
         }
     };
@@ -66,7 +79,7 @@ const DragDrop = ({ input, handleInputChange, handleClick, value, }: DragDropPro
             <div className="flex justify-around mt-4">
                 {/* Todo Section */}
                 <div
-                    onDrop={(e) => handleDrop(e, setTodo, todo)}
+                    onDrop={(e) => handleDrop(e, 'todo')}
                     onDragOver={(e) => e.preventDefault()}
                     className="border-2 border-blue-500 bg-blue-100 rounded-lg shadow-md h-72 w-72 overflow-y-auto"
                 >
@@ -87,7 +100,7 @@ const DragDrop = ({ input, handleInputChange, handleClick, value, }: DragDropPro
 
                 {/* In Progress Section */}
                 <div
-                    onDrop={(e) => handleDrop(e, setInProgress, inProgress)}
+                    onDrop={(e) => handleDrop(e, 'inProgress')}
                     onDragOver={(e) => e.preventDefault()}
                     className="border-2 border-orange-500 bg-orange-100 rounded-lg shadow-md h-72 w-72 overflow-y-auto"
                 >
@@ -108,7 +121,7 @@ const DragDrop = ({ input, handleInputChange, handleClick, value, }: DragDropPro
 
                 {/* Completed Section */}
                 <div
-                    onDrop={(e) => handleDrop(e, setCompleted, completed)}
+                    onDrop={(e) => handleDrop(e, 'completed')}
                     onDragOver={(e) => e.preventDefault()}
                     className="border-2 border-green-500 bg-green-100 rounded-lg shadow-md h-72 w-72 overflow-y-auto"
                 >
