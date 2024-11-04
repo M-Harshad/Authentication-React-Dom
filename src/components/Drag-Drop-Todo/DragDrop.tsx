@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'  
+import { RootState } from '../../redux/store';
+import { removeStoredContent, removeCompleted, removeInProgress, removeTodo, setTodo, setInProgress, setCompleted } from '../../redux/slice/slice';
+
 
 interface DragDropProps {
     input: string[]; // Array of strings
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // Function to handle input change
     handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void; // Function to handle form submission
     value: string; // Current input value
+
 }
 
-const DragDrop = ({ input, handleInputChange, handleClick, value }: DragDropProps) => {
-    const [todo, setTodo] = useState<string[]>([]);
-    const [inProgress, setInProgress] = useState<string[]>([]);
-    const [completed, setCompleted] = useState<string[]>([]);
+const DragDrop = ({ input, handleInputChange, handleClick, value, }: DragDropProps) => {
+    const dispatch = useDispatch();
+    const todo = useSelector((state: RootState) => state.input.todo);
+    const inProgress = useSelector((state: RootState) => state.input.inProgress);
+    const completed = useSelector((state: RootState) => state.input.completed);
 
     useEffect(() => {
         setTodo(input);
@@ -23,13 +29,10 @@ const DragDrop = ({ input, handleInputChange, handleClick, value }: DragDropProp
     const handleDrop = (e: React.DragEvent<HTMLDivElement>, targetList: React.Dispatch<React.SetStateAction<string[]>>, currentList: string[]) => {
         const item = e.dataTransfer.getData('text/plain');
         if (item && !currentList.includes(item)) {
-            // Check if the item exists in the original input (Todo list)
             if (todo.includes(item) || inProgress.includes(item) || completed.includes(item)) {
-                // Remove the item from all other lists
-                setTodo((prev) => prev.filter(i => i !== item));
-                setInProgress((prev) => prev.filter(i => i !== item));
-                setCompleted((prev) => prev.filter(i => i !== item));
-                // Add the item to the target list
+               dispatch(removeTodo(item))
+                dispatch(removeInProgress(item))
+                dispatch(removeCompleted(item))
                 targetList((prev) => [...prev, item]);
             }
         }
@@ -38,10 +41,10 @@ const DragDrop = ({ input, handleInputChange, handleClick, value }: DragDropProp
     const handleDeleteDrop = (e: React.DragEvent<HTMLDivElement>) => {
         const item = e.dataTransfer.getData('text/plain');
         if (item) {
-            // Remove the item from all lists
-            setTodo((prev) => prev.filter(i => i !== item));
-            setInProgress((prev) => prev.filter(i => i !== item));
-            setCompleted((prev) => prev.filter(i => i !== item));
+           dispatch(removeTodo(item))
+            dispatch(removeInProgress(item))
+            dispatch(removeCompleted(item))
+            dispatch(removeStoredContent(item));
         }
     };
 
