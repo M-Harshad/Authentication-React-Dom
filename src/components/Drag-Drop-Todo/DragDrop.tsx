@@ -29,10 +29,13 @@ const DragDrop = ({ input, handleInputChange, handleClick, value }: DragDropProp
         if (item) {
             if (todo.includes(item)) {
                 dispatch(removeTodo(item));
+                dispatch(removeStoredContent(item));
             } else if (inProgress.includes(item)) {
                 dispatch(removeInProgress(item));
+                dispatch(removeStoredContent(item));
             } else if (completed.includes(item)) {
                 dispatch(removeCompleted(item));
+                dispatch(removeStoredContent(item));
             }
 
             switch (targetList) {
